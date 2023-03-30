@@ -5,11 +5,12 @@ import { ScrollMenu, VisibilityContext } from 'react-horizontal-scrolling-menu';
 import { FaArrowAltCircleLeft, FaArrowAltCircleRight } from 'react-icons/fa';
 
 const LeftArrow = () => {
-  const { scrollPrev } = useContext(VisibilityContext);
+  const { scrollPrev, isFirstItemVisible } = useContext(VisibilityContext);
 
   return (
     <Flex justifyContent='center' alignItems='center' marginRight='1'>
       <Icon
+      _disabled={isFirstItemVisible}
         as={FaArrowAltCircleLeft}
         onClick={() => scrollPrev()}
         fontSize='2xl'
@@ -21,11 +22,12 @@ const LeftArrow = () => {
 }
 
 const RightArrow = () => {
-  const { scrollNext } = useContext(VisibilityContext);
+  const { scrollNext, isLastItemVisible } = useContext(VisibilityContext);
 
   return (
     <Flex justifyContent='center' alignItems='center' marginLeft='1'>
       <Icon
+      _disabled={isLastItemVisible}
         as={FaArrowAltCircleRight}
         onClick={() => scrollNext()}
         fontSize='2xl'
@@ -39,8 +41,8 @@ export default function ImageSrollbar({ data }) {
   return (
     <ScrollMenu LeftArrow={LeftArrow} RightArrow={RightArrow} style={{ overflow: 'hidden' }} >
       {data.map((item) => (
-        <Box width='910px' itemId={item.id} overflow='hidden' p='1'>
-          <Image placeholder="blur" blurDataURL={item.url} src={item.url} width={1000} height={500}  sizes="(max-width: 500px) 100px, (max-width: 1023px) 400px, 1000px" />
+        <Box key={item.id} width='910px' itemId={item.id} overflow='hidden' p='1' >
+          <Image alt={item.name} placeholder="blur" blurDataURL={item.url} src={item.url} width={1000} height={500}  sizes="(max-width: 500px) 100px, (max-width: 1023px) 400px, 1000px" />
         </Box>
       ))}
     </ScrollMenu>
